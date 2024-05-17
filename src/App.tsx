@@ -1,23 +1,53 @@
-import { useEffect, useRef, useState } from "react";
-import "./App.css";
-import MiniCalender, { MiniCalenderRef } from "./components/MiniCalender2";
+import { Button, Checkbox, Input } from "antd";
+import Form from "./components/Form";
 
-function App() {
-  const calendarRef = useRef<MiniCalenderRef>(null);
+const Basic: React.FC = () => {
+  const onFinish = (values: any) => {
+    console.log('Success:', values);
+  };
 
-  const [date, setDate] = useState(new Date());
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+  };
 
   return (
-    <MiniCalender
-      ref={calendarRef}
-      // defaultValue={new Date("2023-3-1")}
-      value={date}
-      onChange={(date) => {
-        setDate(date)
-        alert(date.toLocaleDateString());
-      }}
-    />
-  );
-}
+    <Form
+      initialValues={{ remember: true, username: '神说要有光' }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+    >
+      <Form.Item
+        label="Username"
+        name="username"
+        rules={[
+          { required: true, message: '请输入用户名!' },
+          { max: 6, message: '长度不能大于 6' }
+        ]}
+      >
+        <Input />
+      </Form.Item>
 
-export default App;
+      <Form.Item
+        label="Password"
+        name="password"
+        rules={[{ required: true, message: '请输入密码!' }]}
+      >
+        <Input.TextArea />
+      </Form.Item>
+
+      <Form.Item name="remember" valuePropName="checked">
+        <Checkbox>记住我</Checkbox>
+      </Form.Item>
+
+      <Form.Item>
+        <div>
+          <Button type="primary" htmlType="submit" >
+            登录
+          </Button>
+        </div>
+      </Form.Item>
+    </Form>
+  );
+};
+
+export default Basic;
