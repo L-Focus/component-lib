@@ -1,12 +1,20 @@
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
-import SimpleCalenderWithHook from "./components/SimpleCalenderWithHook";
+import MiniCalender, { MiniCalenderRef } from "./components/MiniCalender2";
 
 function App() {
+  const calendarRef = useRef<MiniCalenderRef>(null);
+
+  const [date, setDate] = useState(new Date());
+
   return (
-    <SimpleCalenderWithHook
-      defaultValue={new Date("2024-5-1")}
+    <MiniCalender
+      ref={calendarRef}
+      // defaultValue={new Date("2023-3-1")}
+      value={date}
       onChange={(date) => {
-        console.log(date.toLocaleDateString());
+        setDate(date)
+        alert(date.toLocaleDateString());
       }}
     />
   );
